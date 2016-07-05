@@ -1,0 +1,15 @@
+FROM alpine:3.3
+
+ENV DATA_DIR=/some/path \
+    TARGET_USER=some-user
+
+ADD https://github.com/weahead/docker-data-overlay/releases/download/v1.0.0/wrap-docker-entrypoint.sh /wrap-docker-entrypoint.sh
+
+RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
+    && apk --no-cache add shadow \
+    && chmod +x /wrap-docker-entrypoint.sh
+
+ENTRYPOINT ["/wrap-docker-entrypoint.sh"]
+
+# Set CMD to the entrypoint + cmd in the FROM image
+CMD ["docker-entrypoint.sh"]
