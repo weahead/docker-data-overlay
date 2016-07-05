@@ -9,7 +9,8 @@ RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories 
     && apk --no-cache add shadow \
     && chmod +x /wrap-docker-entrypoint.sh
 
-ENTRYPOINT ["/wrap-docker-entrypoint.sh"]
+# Set ENTRYPOINT to "/wrap-docker-entrypoint.sh" + ENTRYPOINT in the FROM image
+ENTRYPOINT ["/wrap-docker-entrypoint.sh", "docker-entrypoint.sh"]
 
-# Set CMD to the entrypoint + cmd in the FROM image
-CMD ["docker-entrypoint.sh"]
+# Setting ENTRYPOINT resets CMD, so also set CMD to the same as in the FROM image.
+CMD ["command-in-FROM-image"]
