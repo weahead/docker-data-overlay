@@ -13,4 +13,8 @@ groupmod -o -g ${TARGET_GID} ${TARGET_USER} || true
 echo
 echo "Running default entrypoint..."
 
-exec $@
+if command -v su-exec >/dev/null 2>&1; then
+  su-exec ${TARGET_USER} $@
+else
+  gosu ${TARGET_USER} $@
+fi
