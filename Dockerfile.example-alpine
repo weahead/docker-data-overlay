@@ -1,0 +1,21 @@
+FROM alpine:3.4
+
+# Define needed variables.
+ENV DATA_DIR=/some/path \
+    TARGET_USER=some-user
+
+# Add data-overlay script.
+ADD https://github.com/weahead/docker-data-overlay/releases/download/v2.0.0/wrap-docker-entrypoint.sh /wrap-docker-entrypoint.sh
+
+# Make data-overlay script executable.
+RUN chmod +x /wrap-docker-entrypoint.sh
+
+# Add `usermod`, `groupmod` and `su-exec`.
+RUN echo http://nl.alpinelinux.org/alpine/edge/testing >> /etc/apk/repositories \
+    && apk --no-cache add shadow su-exec
+
+# Set ENTRYPOINT to "/wrap-docker-entrypoint.sh" + ENTRYPOINT in the FROM image.
+ENTRYPOINT ["/wrap-docker-entrypoint.sh", "ENTRYPOINT-in-FROM-image"]
+
+# Setting ENTRYPOINT resets CMD, so also set CMD to the same as in the FROM image.
+CMD ["CMD-in-FROM-image"]
