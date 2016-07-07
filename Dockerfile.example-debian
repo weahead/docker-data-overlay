@@ -5,7 +5,7 @@ ENV DATA_DIR=/some/path \
     TARGET_USER=some-user
 
 # Add data-overlay script.
-ADD https://github.com/weahead/docker-data-overlay/releases/download/v1.0.0/wrap-docker-entrypoint.sh /wrap-docker-entrypoint.sh
+ADD https://github.com/weahead/docker-data-overlay/releases/download/v2.0.0/wrap-docker-entrypoint.sh /wrap-docker-entrypoint.sh
 
 # Make data-overlay script executable.
 RUN chmod +x /wrap-docker-entrypoint.sh
