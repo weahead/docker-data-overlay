@@ -14,7 +14,7 @@ echo
 echo "Running default entrypoint..."
 
 if command -v su-exec >/dev/null 2>&1; then
-  su-exec ${TARGET_USER} $@
+  exec su-exec ${TARGET_USER} $@
 else
-  gosu ${TARGET_USER} $@
+  exec gosu ${TARGET_USER} $@
 fi
